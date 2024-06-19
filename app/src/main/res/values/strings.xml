@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">To do</string>
+    <string name="tile">Tasks</string>
+    <string name="Change_task">Change task</string>
+    <string name="Task_action">Task action</string>
+    <string name="Delete_task">Delete task</string>
+    <string name="Close">Close</string>
+    <string name="Task_type">Task type</string>
+    <string name="Change_Task">Please, change task</string>
+    <string name="HoldToChangeType">Hold, to change task type</string>
+    <string name="Accept">Accept</string>
+    <string name="Hint">Ex. do homework</string>
+    <string name="SaveError">Error in save tasks</string>
+    <string name="LoadError">Error in load tasks</string>
+    <string name="SelectType">Select task type</string>
+    <string name="Task_description">Task description</string>
+    <string name="Task_name">Task name</string>
+</resources>

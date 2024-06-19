@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tile">Задачи</string>
+    <string name="Change_task">Изменить задачу</string>
+    <string name="Task_action">Действия с задачей</string>
+    <string name="Delete_task">Удалить задачу</string>
+    <string name="Close">Закрыть</string>
+    <string name="Task_type">Тип задач</string>
+    <string name="Change_Task">Пожалуйста, поменяйте задачу</string>
+    <string name="HoldToChangeType">Удерживайте, чтобы поменять тип задачи</string>
+    <string name="Accept">Подтвердить</string>
+    <string name="Hint">Напр. почистить картошку</string>
+    <string name="SaveError">Ошибка сохранения задач</string>
+    <string name="LoadError">Ошибка загрузки задач</string>
+    <string name="SelectType">Выберите тип задачи</string>
+    <string name="Task_description">Описание задачи</string>
+    <string name="Task_name">Имя задачи</string>
+</resources>
