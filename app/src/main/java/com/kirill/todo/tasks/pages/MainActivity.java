@@ -29,6 +29,7 @@ import com.kirill.todo.tasks.data.AbstractTask;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 
+@SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton addButton;
@@ -56,25 +57,31 @@ public class MainActivity extends AppCompatActivity {
     private void initTasks() {
         if (tasks.size() != 0) {
             final int todayDate = LocalDateTime.now().getDayOfYear();
+            final String dayOfWeek = LocalDateTime.now().getDayOfWeek().toString();
             final Iterator<AbstractTask> taskIterator = tasks.iterator();
             for (int i = 0; i < taskList.getChildCount(); i++) {
                 if (taskIterator.hasNext()) {
                     AbstractTask task = taskIterator.next();
-                    LinearLayout taskBlock = (LinearLayout) taskList.getChildAt(i);
-                    taskBlock.setVisibility(View.VISIBLE);
+                    if (task.getWhichDaysOfWeek().contains(dayOfWeek)) {
+                        LinearLayout taskBlock = (LinearLayout) taskList.getChildAt(i);
+                        taskBlock.setVisibility(View.VISIBLE);
 
-                    RadioButton radBtn = (RadioButton) taskBlock.getChildAt(0);
-                    if (task.isActivated() && todayDate == today) {
-                        radBtn.toggle();
+                        RadioButton radBtn = (RadioButton) taskBlock.getChildAt(0);
+                        if (task.isActivated() && todayDate == today) {
+                            radBtn.toggle();
+                        }
+
+                        TextView txtv1 = (TextView) taskBlock.getChildAt(1);
+                        txtv1.setText(task.getTaskName());
+
+                        TextView txtv2 = (TextView) taskBlock.getChildAt(2);
+                        txtv2.setText(String.valueOf(task.getType()));
+
+                        registerForContextMenu(taskBlock);
+                        taskBlock.setOnClickListener(view -> {
+                            startActivity(new Intent(this, ViewTaskDetailed.class));
+                        });
                     }
-
-                    TextView txtv1 = (TextView) taskBlock.getChildAt(1);
-                    txtv1.setText(task.getTaskName());
-
-                    TextView txtv2 = (TextView) taskBlock.getChildAt(2);
-                    txtv2.setText(String.valueOf(task.getType()));
-
-                    registerForContextMenu(taskBlock);
                 }
             }
         }
@@ -99,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
         switch (String.valueOf(item.getTitle())) {
             case "Change task":
             case "Изменить задачу":
-                Intent intent = new Intent(this, TaskChange.class);
-                startActivity(intent);
+                startActivity(new Intent(this, TaskChange.class));
                 break;
             case "Delete task":
             case "Удалить задачу":
@@ -111,13 +117,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goAddTask(View view) {
-        Intent goAdd = new Intent(this, AddTask.class);
-        startActivity(goAdd);
+        startActivity(new Intent(this, AddTask.class));
     }
 
     public void taskComplete(View view) {
-        LinearLayout block = (LinearLayout) view.getParent();
-        LinearLayout list = (LinearLayout) block.getParent();
-        tasks.get(list.indexOfChild(block)).setActivated(true);
+        final LinearLayout block = (LinearLayout) view.getParent();
+        final LinearLayout list = (LinearLayout) block.getParent();
+        if (tasks.get(list.indexOfChild(block)).isActivated()) {
+            tasks.get(list.indexOfChild(block)).setActivated(false);
+        } else {
+            tasks.get(list.indexOfChild(block)).setActivated(true);
+        }
     }
 }

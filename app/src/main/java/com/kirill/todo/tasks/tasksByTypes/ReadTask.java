@@ -11,7 +11,7 @@ public class ReadTask extends AbstractTask {
     public ReadTask(String creator, String taskName, int subtaskCount, String description, String type) {
         this.CREATOR = creator;
         this.taskName = taskName;
-        this.subtaskCount = subtaskCount;
+        this.stepsCount = subtaskCount;
         this.description = description;
         this.type = TasksEnum.valueOf(type);
     }

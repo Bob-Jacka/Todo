@@ -15,4 +15,8 @@
     <string name="SelectType">Select task type</string>
     <string name="Task_description">Task description</string>
     <string name="Task_name">Task name</string>
+    <string name="Task_steps">Task steps</string>
+    <string name="TapToAddStep">Tap to add step</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_view_task">view_task</string>
 </resources>
