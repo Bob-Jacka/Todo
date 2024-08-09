@@ -1,6 +1,8 @@
 package com.kirill.todo.tasks.pages;
 
+import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
+import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
 import static com.kirill.todo.tasks.data.GlobalSettings.factory;
 
 import android.content.Intent;
@@ -19,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kirill.todo.R;
-import com.kirill.todo.tasks.core.TaskActionController;
 import com.kirill.todo.tasks.data.AbstractTask;
 import com.kirill.todo.tasks.data.TasksEnum;
 
@@ -76,7 +77,7 @@ public class AddTask extends AppCompatActivity {
         currTask = factory.getTask(newType);
         currTask.setTaskName(newName);
         currTask.setType(newType);
-        currTask.setSubtaskCount(0);
+        currTask.setStepsCount(0);
         if (taskDescribe != null) {
             currTask.setDescription(taskDescribe.isEmpty() ? " " : taskDescribe);
         }
@@ -94,8 +95,8 @@ public class AddTask extends AppCompatActivity {
         if (currTask != null && !newName.equals("")) {
             currTask.setCreatedAt(String.valueOf(Calendar.getInstance().getTime()));
             Intent goMain = new Intent(this, MainActivity.class);
-            TaskActionController.addTask(currTask);
-            TaskActionController.saveTasks();
+            addTask(currTask);
+            saveTasks();
             startActivity(goMain);
         } else {
             Toast.makeText(this, R.string.Change_task, Toast.LENGTH_SHORT).show();

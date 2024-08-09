@@ -21,6 +21,10 @@
         android:theme="@style/Theme.ToDo"
         tools:targetApi="31">
         <activity
+            android:name=".tasks.pages.ViewTaskDetailed"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".tasks.pages.TaskChange"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -35,6 +39,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

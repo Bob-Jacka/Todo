@@ -1,7 +1,10 @@
 package com.kirill.todo.tasks.pages;
 
+import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
+import static com.kirill.todo.tasks.core.TaskActionController.deleteTask;
 import static com.kirill.todo.tasks.core.TaskActionController.getTask;
+import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kirill.todo.R;
-import com.kirill.todo.tasks.core.TaskActionController;
 import com.kirill.todo.tasks.data.AbstractTask;
 import com.kirill.todo.tasks.data.TasksEnum;
 
@@ -122,9 +124,9 @@ public class TaskChange extends AppCompatActivity {
         if (!newTaskDescription.equals("") && !newTaskName.equals("") && newTaskTypeBtn != null) {
             taskToChange.setDescription(newTaskDescription);
             taskToChange.setTaskName(newTaskName);
-            TaskActionController.deleteTask();
-            TaskActionController.addTask(taskToChange);
-            TaskActionController.saveTasks();
+            deleteTask();
+            addTask(taskToChange);
+            saveTasks();
             Intent goMain = new Intent(this, MainActivity.class);
             startActivity(goMain);
         }

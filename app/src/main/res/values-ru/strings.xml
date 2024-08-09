@@ -15,4 +15,6 @@
     <string name="SelectType">Выберите тип задачи</string>
     <string name="Task_description">Описание задачи</string>
     <string name="Task_name">Имя задачи</string>
+    <string name="Task_steps">Шаги задачи</string>
+    <string name="TapToAddStep">Нажмите, чтобы добавить шаг</string>
 </resources>

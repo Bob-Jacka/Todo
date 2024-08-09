@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class Save_Module extends AppCompatActivity {
 
     public static String saveFileName;
-    private File saveFile = new File(saveFileName);
+    private final File saveFile = new File(saveFileName);
     private static final ObjectMapper mapper = new ObjectMapper();
 
     void save_TaskBlocks() {

@@ -1,16 +1,21 @@
 package com.kirill.todo.tasks.data;
 
 import java.io.Serializable;
+import java.util.List;
 
 public abstract class AbstractTask implements Serializable {
 
     protected String CREATOR;
     protected String taskName;
-    protected int subtaskCount;
+    protected int stepsCount;
     protected String description;
     protected TasksEnum type;
     protected boolean isActivated;
     protected String createdAt;
+    protected int checkedWhen;
+
+    protected List<String> whichDaysOfWeek;
+    protected List<String> steps;
 
     public String getTaskName() {
         return taskName;
@@ -20,12 +25,12 @@ public abstract class AbstractTask implements Serializable {
         this.taskName = taskName;
     }
 
-    public int getSubtaskCount() {
-        return subtaskCount;
+    public int getStepsCount() {
+        return stepsCount;
     }
 
-    public void setSubtaskCount(int subtaskCount) {
-        this.subtaskCount = subtaskCount;
+    public void setStepsCount(int stepsCount) {
+        this.stepsCount = stepsCount;
     }
 
     public String getDescription() {
@@ -58,6 +63,26 @@ public abstract class AbstractTask implements Serializable {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getCheckedWhen() {
+        return checkedWhen;
+    }
+
+    public void setCheckedWhen(int checkedWhen) {
+        this.checkedWhen = checkedWhen;
+    }
+
+    public List<String> getWhichDaysOfWeek() {
+        return whichDaysOfWeek;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<String> getSteps() {
+        return steps;
     }
 }
 
