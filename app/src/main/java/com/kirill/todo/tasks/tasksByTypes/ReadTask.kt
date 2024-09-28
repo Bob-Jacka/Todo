@@ -1,18 +1,14 @@
-package com.kirill.todo.tasks.tasksByTypes;
+package com.kirill.todo.tasks.tasksByTypes
 
-import com.kirill.todo.tasks.data.AbstractTask;
-import com.kirill.todo.tasks.data.TasksEnum;
+import com.kirill.todo.tasks.data.AbstractTask
+import com.kirill.todo.tasks.data.TasksEnum
 
-public class ReadTask extends AbstractTask {
+class ReadTask : AbstractTask {
+    constructor()
 
-    public ReadTask() {
-    }
-
-    public ReadTask(String creator, String taskName, int subtaskCount, String description, String type) {
-        this.CREATOR = creator;
-        this.taskName = taskName;
-        this.stepsCount = subtaskCount;
-        this.description = description;
-        this.type = TasksEnum.valueOf(type);
+    constructor(taskName: String, description: String?, type: TasksEnum) {
+        this.taskName = taskName
+        this.description = description!!
+        this.type = type
     }
 }

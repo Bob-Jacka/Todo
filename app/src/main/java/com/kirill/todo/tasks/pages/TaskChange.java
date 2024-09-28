@@ -3,8 +3,8 @@ package com.kirill.todo.tasks.pages;
 import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
 import static com.kirill.todo.tasks.core.TaskActionController.deleteTask;
-import static com.kirill.todo.tasks.core.TaskActionController.getTask;
 import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKey;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,7 @@ public class TaskChange extends AppCompatActivity {
     private Button acceptBtn, newTaskTypeBtn;
     private AbstractTask taskToChange;
     private String newTaskName, newTaskDescription;
+    private LinearLayout buttonGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class TaskChange extends AppCompatActivity {
         initAll();
         initFields();
         initListeners();
+        initWhichDays();
     }
 
     private void initAll() {
@@ -45,16 +49,17 @@ public class TaskChange extends AppCompatActivity {
         newTaskTypeBtn = findViewById(R.id.TaskType);
         taskDescription = findViewById(R.id.TaskDescription);
         acceptBtn = findViewById(R.id.AcceptChange);
-        taskToChange = getTask();
+        buttonGroup = findViewById(R.id.ButtonGroup);
+        taskToChange = (AbstractTask) getIntent().getExtras().getSerializable(serializeKey);
     }
 
     private void initFields() {
-        taskName.setText(taskToChange.getTaskName());
-        newTaskTypeBtn.setText(String.valueOf(taskToChange.getType()));
-        taskDescription.setText(taskToChange.getDescription());
+        taskName.setText(taskToChange.taskName());
+        newTaskTypeBtn.setText(String.valueOf(taskToChange.type()));
+        taskDescription.setText(taskToChange.description());
         registerForContextMenu(newTaskTypeBtn);
         newTaskName = taskName.getText().toString();
-        newTaskDescription = taskDescription.getText().toString();
+        newTaskDescription = taskToChange.description();
     }
 
     private void initListeners() {
@@ -90,6 +95,25 @@ public class TaskChange extends AppCompatActivity {
                 newTaskDescription = editable.toString();
             }
         });
+        for (int i = 1; i < 7; i++) {
+            ((RadioButton) buttonGroup.getChildAt(i)).setOnClickListener(view -> {
+                taskToChange.whichDaysOfWeek().remove((String) (((RadioButton) view).getText()));
+            });
+        }
+    }
+
+    private void initWhichDays() {
+        int daysCounter = 0;
+        while (daysCounter < taskToChange.whichDaysOfWeek().size()) {
+            String day = capitalizeString(taskToChange.whichDaysOfWeek().get(daysCounter));
+            for (int i = 1; i < 7; i++) {
+                RadioButton button = (RadioButton) buttonGroup.getChildAt(i);
+                if (button.getText().equals(day)) {
+                    button.toggle();
+                }
+            }
+            daysCounter++;
+        }
     }
 
     @Override
@@ -102,39 +126,44 @@ public class TaskChange extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        String val = String.valueOf(item.getTitle());
+        TasksEnum val = TasksEnum.valueOf(item.getTitle().toString().toUpperCase());
         switch (val) {
-            case "Empty":
-                contextClick(val, TasksEnum.EMPTY);
+            case OTHER:
+                contextClick(TasksEnum.OTHER);
                 break;
-            case "Work":
-                contextClick(val, TasksEnum.WORK);
+            case WORK:
+                contextClick(TasksEnum.WORK);
                 break;
-            case "Physical":
-                contextClick(val, TasksEnum.PHYSICAL);
+            case SPORT:
+                contextClick(TasksEnum.SPORT);
                 break;
-            case "Read":
-                contextClick(val, TasksEnum.READ);
+            case READ:
+                contextClick(TasksEnum.READ);
+                break;
+            case MEDICAL:
+                contextClick(TasksEnum.MEDICAL);
+                break;
+            case EDUCATION:
+                contextClick(TasksEnum.EDUCATION);
                 break;
         }
         return false;
     }
 
     public void acceptChanges(View v) {
-        if (!newTaskDescription.equals("") && !newTaskName.equals("") && newTaskTypeBtn != null) {
-            taskToChange.setDescription(newTaskDescription);
-            taskToChange.setTaskName(newTaskName);
+        if (!newTaskName.equals("") && newTaskTypeBtn != null) {
+            taskToChange.description(newTaskDescription);
+            taskToChange.taskName(newTaskName);
             deleteTask();
             addTask(taskToChange);
             saveTasks();
-            Intent goMain = new Intent(this, MainActivity.class);
-            startActivity(goMain);
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
-    private void contextClick(String val, TasksEnum type) {
-        taskToChange.setType(type);
+    private void contextClick(TasksEnum type) {
+        taskToChange.type(type);
         newTaskTypeBtn.setBackgroundColor(Color.GREEN);
-        newTaskTypeBtn.setText(val);
+        newTaskTypeBtn.setText(String.valueOf(type));
     }
 }

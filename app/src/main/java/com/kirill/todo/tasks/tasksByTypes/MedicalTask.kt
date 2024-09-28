@@ -3,7 +3,8 @@ package com.kirill.todo.tasks.tasksByTypes
 import com.kirill.todo.tasks.data.AbstractTask
 import com.kirill.todo.tasks.data.TasksEnum
 
-class WorkTask : AbstractTask {
+class MedicalTask : AbstractTask {
+
     constructor()
 
     constructor(taskName: String, description: String?, type: TasksEnum) {

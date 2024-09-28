@@ -34,11 +34,9 @@ public final class TaskActionController {
     }
 
     public static void addTask(AbstractTask task) {
-        tasks.add(task);
-    }
-
-    public static AbstractTask getTask() {
-        return tasks.get(taskViewPointer);
+        if (task != null) {
+            tasks.add(task);
+        }
     }
 
     public static String capitalizeString(final String str) {

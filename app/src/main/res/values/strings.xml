@@ -17,6 +17,16 @@
     <string name="Task_name">Task name</string>
     <string name="Task_steps">Task steps</string>
     <string name="TapToAddStep">Tap to add step</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_view_task">view_task</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="title_activity_view_task" translatable="false">view_task</string>
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
+    <string name="ChooseDayOn">Choose day on</string>
+    <string name="Task_WhenCreated">Task created at</string>
+    <string name="GoBackBtn">Go back</string>
 </resources>

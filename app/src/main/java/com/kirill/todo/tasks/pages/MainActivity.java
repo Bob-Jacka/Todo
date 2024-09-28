@@ -5,6 +5,7 @@ import static com.kirill.todo.tasks.core.TaskActionController.loadTasks;
 import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
 import static com.kirill.todo.tasks.core.TaskActionController.taskViewPointer;
 import static com.kirill.todo.tasks.data.GlobalSettings.SAVE_FILE_NAME;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKey;
 import static com.kirill.todo.tasks.data.GlobalSettings.tasks;
 import static com.kirill.todo.tasks.data.GlobalSettings.today;
 
@@ -14,14 +15,15 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kirill.todo.R;
 import com.kirill.todo.tasks.core.TaskActionController;
 import com.kirill.todo.tasks.data.AbstractTask;
@@ -32,7 +34,8 @@ import java.util.Iterator;
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton addButton;
+    private FloatingActionButton addButton;
+    private SwipeRefreshLayout srl;
 
     @SuppressLint("StaticFieldLeak")
     public static LinearLayout taskList;
@@ -44,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
         saveFileName = getApplicationContext().getFilesDir().getAbsolutePath() + SAVE_FILE_NAME;
         taskList = findViewById(R.id.TasksList);
         addButton = findViewById(R.id.addButton);
+        srl = findViewById(R.id.swiperefresh);
         loadTasks();
         initTasks();
+        srl.setOnRefreshListener(() -> taskList.refreshDrawableState());
     }
 
     @Override
@@ -56,30 +61,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTasks() {
         if (tasks.size() != 0) {
-            final int todayDate = LocalDateTime.now().getDayOfYear();
             final String dayOfWeek = LocalDateTime.now().getDayOfWeek().toString();
             final Iterator<AbstractTask> taskIterator = tasks.iterator();
-            for (int i = 0; i < taskList.getChildCount(); i++) {
+            for (int i = 0; i < tasks.size(); i++) {
                 if (taskIterator.hasNext()) {
-                    AbstractTask task = taskIterator.next();
-                    if (task.getWhichDaysOfWeek().contains(dayOfWeek)) {
+                    AbstractTask taskToLoad = taskIterator.next();
+                    if (taskToLoad.whichDaysOfWeek().contains(dayOfWeek)) {
                         LinearLayout taskBlock = (LinearLayout) taskList.getChildAt(i);
                         taskBlock.setVisibility(View.VISIBLE);
 
-                        RadioButton radBtn = (RadioButton) taskBlock.getChildAt(0);
-                        if (task.isActivated() && todayDate == today) {
-                            radBtn.toggle();
+                        CheckBox checkBox = (CheckBox) taskBlock.getChildAt(0);
+                        if (taskToLoad.whenActivated() == today && taskToLoad.checked()) {
+                            checkBox.toggle();
                         }
 
                         TextView txtv1 = (TextView) taskBlock.getChildAt(1);
-                        txtv1.setText(task.getTaskName());
+                        txtv1.setText(taskToLoad.taskName());
 
                         TextView txtv2 = (TextView) taskBlock.getChildAt(2);
-                        txtv2.setText(String.valueOf(task.getType()));
+                        txtv2.setText(String.valueOf(taskToLoad.type()));
 
                         registerForContextMenu(taskBlock);
+                        checkBox.setOnClickListener((this::taskComplete));
                         taskBlock.setOnClickListener(view -> {
-                            startActivity(new Intent(this, ViewTaskDetailed.class));
+                            Intent intent = new Intent(this, ViewTaskDetailed.class);
+                            intent.putExtra(serializeKey, tasks.get(taskList.indexOfChild(view)));
+                            startActivity(intent);
                         });
                     }
                 }
@@ -106,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
         switch (String.valueOf(item.getTitle())) {
             case "Change task":
             case "Изменить задачу":
-                startActivity(new Intent(this, TaskChange.class));
+                Intent intent = new Intent(this, TaskChange.class);
+                intent.putExtra(serializeKey, tasks.get(taskViewPointer));
+                startActivity(intent);
                 break;
             case "Delete task":
             case "Удалить задачу":
@@ -121,12 +130,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void taskComplete(View view) {
-        final LinearLayout block = (LinearLayout) view.getParent();
-        final LinearLayout list = (LinearLayout) block.getParent();
-        if (tasks.get(list.indexOfChild(block)).isActivated()) {
-            tasks.get(list.indexOfChild(block)).setActivated(false);
+        LinearLayout block = (LinearLayout) view.getParent();
+        LinearLayout list = (LinearLayout) block.getParent();
+        AbstractTask logicTask = tasks.get(list.indexOfChild(block));
+        final CheckBox checkBox = (CheckBox) view;
+        if (checkBox.isChecked() && logicTask.whenActivated() != today) {
+            logicTask.whenActivated(today);
+            logicTask.checked(true);
         } else {
-            tasks.get(list.indexOfChild(block)).setActivated(true);
+            logicTask.whenActivated(0);
+            logicTask.checked(false);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        try {
+            finalize();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+        super.onBackPressed();
     }
 }

@@ -75,11 +75,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Task_steps" />
 
-            <Button
-                android:id="@+id/button2"
+            <LinearLayout
+                android:id="@+id/AddStep"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:orientation="horizontal"
                 android:text="@string/TapToAddStep" />
 
         </LinearLayout>
@@ -89,6 +91,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/SelectType" />
+
+        <LinearLayout
+            android:id="@+id/ButtonGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/WhichDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ChooseDayOn" />
+
+            <RadioButton
+                android:id="@+id/Monday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Monday" />
+
+            <RadioButton
+                android:id="@+id/Tuesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Tuesday" />
+
+            <RadioButton
+                android:id="@+id/Wednesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Wednesday" />
+
+            <RadioButton
+                android:id="@+id/Thursday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Thursday" />
+
+            <RadioButton
+                android:id="@+id/Friday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Friday" />
+
+            <RadioButton
+                android:id="@+id/Saturday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Saturday" />
+
+            <RadioButton
+                android:id="@+id/Sunday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Sunday" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button

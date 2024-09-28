@@ -1,89 +1,81 @@
-package com.kirill.todo.tasks.data;
+package com.kirill.todo.tasks.data
 
-import java.io.Serializable;
-import java.util.List;
+import java.io.Serializable
 
-public abstract class AbstractTask implements Serializable {
+abstract class AbstractTask : Serializable {
 
-    protected String CREATOR;
-    protected String taskName;
-    protected int stepsCount;
-    protected String description;
-    protected TasksEnum type;
-    protected boolean isActivated;
-    protected String createdAt;
-    protected int checkedWhen;
+    protected lateinit var taskName: String
+    protected lateinit var description: String
+    protected lateinit var createdAt: String
 
-    protected List<String> whichDaysOfWeek;
-    protected List<String> steps;
+    protected lateinit var type: TasksEnum
+    protected var whenActivated: Int = 0
+    protected var checked: Boolean = false
 
-    public String getTaskName() {
-        return taskName;
+    protected var whichDaysOfWeek: List<String> = mutableListOf()
+    protected var steps: List<String> = mutableListOf()
+
+    fun taskName(): String {
+        return taskName
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    fun steps(): List<String>? {
+        return steps.takeIf { steps.isNotEmpty() }
     }
 
-    public int getStepsCount() {
-        return stepsCount;
+    fun steps(steps: List<String>): Unit {
+        this.steps = steps
     }
 
-    public void setStepsCount(int stepsCount) {
-        this.stepsCount = stepsCount;
+    fun taskName(taskName: String): Unit {
+        this.taskName = taskName
     }
 
-    public String getDescription() {
-        return description;
+    fun description(): String? {
+        return description
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    fun description(description: String) {
+        this.description = description
     }
 
-    public TasksEnum getType() {
-        return type;
+    fun type(): TasksEnum {
+        return type
     }
 
-    public void setType(TasksEnum type) {
-        this.type = type;
+    fun type(type: TasksEnum) {
+        this.type = type
     }
 
-    public boolean isActivated() {
-        return isActivated;
+    fun whenActivated(): Int {
+        return whenActivated
     }
 
-    public void setActivated(boolean activated) {
-        isActivated = activated;
+    fun whenActivated(whenActivated: Int) {
+        this.whenActivated = whenActivated
     }
 
-    public String isCreatedAt() {
-        return createdAt;
+    fun createdAt(createdAt: String) {
+        this.createdAt = createdAt
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    fun createdAt(): String {
+        return createdAt
     }
 
-    public int getCheckedWhen() {
-        return checkedWhen;
+    fun whichDaysOfWeek(): List<String> {
+        return whichDaysOfWeek
     }
 
-    public void setCheckedWhen(int checkedWhen) {
-        this.checkedWhen = checkedWhen;
+    fun whichDaysOfWeek(newValue: List<String>): Unit {
+        this.whichDaysOfWeek = newValue
     }
 
-    public List<String> getWhichDaysOfWeek() {
-        return whichDaysOfWeek;
+    fun checked(): Boolean {
+        return checked
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public List<String> getSteps() {
-        return steps;
+    fun checked(newValue: Boolean): Unit {
+        this.checked = newValue
     }
 }
-
-

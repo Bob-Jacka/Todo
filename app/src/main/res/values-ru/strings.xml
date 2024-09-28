@@ -17,4 +17,14 @@
     <string name="Task_name">Имя задачи</string>
     <string name="Task_steps">Шаги задачи</string>
     <string name="TapToAddStep">Нажмите, чтобы добавить шаг</string>
+    <string name="Monday">Понедельник</string>
+    <string name="Tuesday">Вторник</string>
+    <string name="Wednesday">Среда</string>
+    <string name="Thursday">Четверг</string>
+    <string name="Friday">Пятница</string>
+    <string name="Saturday">Суббота</string>
+    <string name="Sunday">Воскресенье</string>
+    <string name="ChooseDayOn">Выберите день, когда задача активна</string>
+    <string name="Task_WhenCreated">Задача создана</string>
+    <string name="GoBackBtn">Вернуться назад</string>
 </resources>
