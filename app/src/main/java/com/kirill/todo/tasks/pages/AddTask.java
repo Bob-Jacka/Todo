@@ -3,7 +3,9 @@ package com.kirill.todo.tasks.pages;
 import static com.kirill.todo.tasks.core.ExtensionsKt.getTask;
 import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
+import static com.kirill.todo.tasks.core.TaskActionController.getData;
 import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKeyStep;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,28 +19,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kirill.todo.R;
 import com.kirill.todo.tasks.data.AbstractTask;
 import com.kirill.todo.tasks.data.TasksEnum;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class AddTask extends AppCompatActivity {
 
-    private AbstractTask currTask;
+    private AbstractTask current_task;
     private String newName, newTaskDescribe;
     private Button changeType;
     private TasksEnum newType;
     private EditText descriptionField, changeName;
-    private LinearLayout buttonGroup, addSteps;
+    private LinearLayout buttonGroup;
     private List<String> whichDaysMap;
+    private Button addStep;
+    private String step;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,24 +80,30 @@ public class AddTask extends AppCompatActivity {
                 newTaskDescribe = editable.toString();
             }
         });
-        addSteps.setOnClickListener((view) -> {
-                    addSteps.addView(new TextView(this));
-                }
-        );
     }
 
     public void changeTask(View v) {
-        currTask = getTask(newType);
-        currTask.taskName(newName);
-        currTask.type(newType);
-        checkWhichDays();
-        currTask.whichDaysOfWeek(whichDaysMap);
-        if (newTaskDescribe != null) {
-            currTask.description(newTaskDescribe);
+        if (newType != null) {
+            current_task = getTask(newType);
+            current_task.taskName(newName);
+            current_task.type(newType);
+            checkWhichDays();
+            current_task.whichDaysOfWeek(whichDaysMap);
+            if (newTaskDescribe != null) {
+                current_task.description(newTaskDescribe);
+            } else {
+                current_task.description("");
+            }
+            if (step != null) {
+                if (!step.isEmpty()) {
+                    current_task.steps().add(step);
+                }
+            }
+            current_task.createdAt(getData());
+            accept();
         } else {
-            currTask.description("");
+            Toast.makeText(this, "error in type", Toast.LENGTH_SHORT).show();
         }
-        accept();
     }
 
     private void initActivity() {
@@ -102,14 +111,17 @@ public class AddTask extends AppCompatActivity {
         changeType = findViewById(R.id.ChangeType);
         descriptionField = findViewById(R.id.DescriptionField);
         buttonGroup = findViewById(R.id.ButtonGroup);
-        addSteps = findViewById(R.id.AddStep);
+        addStep = findViewById(R.id.AddSteps);
         registerForContextMenu(changeType);
+        step = getStepIfExist();
+        addStep.setOnClickListener(view -> {
+            startActivity(new Intent(this, Steps.class));
+        });
     }
 
     private void accept() {
-        if (currTask != null && !newName.equals("")) {
-            currTask.createdAt(String.valueOf(Calendar.getInstance().getTime()));
-            addTask(currTask);
+        if (current_task != null && !newName.isEmpty()) {
+            addTask(current_task);
             saveTasks();
             startActivity(new Intent(this, MainActivity.class));
         } else {
@@ -143,8 +155,10 @@ public class AddTask extends AppCompatActivity {
                 break;
             case "Medical":
                 contextClick(val, TasksEnum.MEDICAL);
+                break;
             case "Education":
                 contextClick(val, TasksEnum.EDUCATION);
+                break;
         }
         return true;
     }
@@ -156,7 +170,7 @@ public class AddTask extends AppCompatActivity {
     }
 
     private void checkWhichDays() {
-        final List<String> whichDays = currTask.whichDaysOfWeek();
+        final List<String> whichDays = current_task.whichDaysOfWeek();
         for (int i = 1; i < buttonGroup.getChildCount(); i++) {
             RadioButton btn = (RadioButton) buttonGroup.getChildAt(i);
             if (btn.isChecked()) {
@@ -164,5 +178,18 @@ public class AddTask extends AppCompatActivity {
             }
         }
         whichDaysMap = whichDays;
+    }
+
+    @Nullable
+    private String getStepIfExist() {
+        try {
+            final String step = (String) getIntent().getExtras().getSerializable(serializeKeyStep);
+            if (step != null) {
+                return step;
+            }
+        } catch (NullPointerException e) {
+            return null;
+        }
+        return null;
     }
 }

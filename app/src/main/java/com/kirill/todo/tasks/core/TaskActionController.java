@@ -10,16 +10,24 @@ import android.widget.Toast;
 import com.kirill.todo.tasks.data.AbstractTask;
 import com.kirill.todo.tasks.pages.MainActivity;
 
+import java.util.Calendar;
+
 public final class TaskActionController {
 
     @SuppressLint("StaticFieldLeak")
     public static int taskViewPointer;
     private static final Save_Module saveModule = new Save_Module();
 
+    /**
+     * Wrapper method for saving task blocks.
+     */
     public static void saveTasks() {
         saveModule.save_TaskBlocks();
     }
 
+    /**
+     * Wrapper method for loading task blocks.
+     */
     public static void loadTasks() {
         saveModule.load_TasksArray();
     }
@@ -29,7 +37,10 @@ public final class TaskActionController {
             tasks.remove(taskViewPointer);
             taskList.getChildAt(taskViewPointer).setVisibility(View.GONE);
         } catch (IndexOutOfBoundsException e) {
-            Toast.makeText(MainActivity.taskList.getContext(), "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    MainActivity.taskList.getContext(),
+                    "Error occurred in deleting task",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -41,5 +52,9 @@ public final class TaskActionController {
 
     public static String capitalizeString(final String str) {
         return str.charAt(0) + str.substring(1).toLowerCase();
+    }
+
+    public static String getData() {
+        return String.valueOf(Calendar.getInstance().getTime());
     }
 }

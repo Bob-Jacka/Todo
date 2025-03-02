@@ -1,7 +1,7 @@
 package com.kirill.todo.tasks.pages;
 
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
-import static com.kirill.todo.tasks.data.GlobalSettings.serializeKey;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKeyTask;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ public class ViewTaskDetailed extends AppCompatActivity {
     private TextView hereIsType;
     private TextView hereIsSteps;
     private TextView hereIsCreatedAt;
+    private TextView hereIsDaysActive;
     private Button goBack;
 
     @Override
@@ -38,11 +39,12 @@ public class ViewTaskDetailed extends AppCompatActivity {
         hereIsSteps = findViewById(R.id.hereIsSteps);
         hereIsCreatedAt = findViewById(R.id.hereIsCreatedAt);
         goBack = findViewById(R.id.goBack);
+        hereIsDaysActive = findViewById(R.id.hereIsDaysActive);
         goBack.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
     private void writeValues() {
-        final AbstractTask task = (AbstractTask) getIntent().getExtras().getSerializable(serializeKey);
+        final AbstractTask task = (AbstractTask) getIntent().getExtras().getSerializable(serializeKeyTask);
         hereIsName.setText(task.taskName());
         hereIsDescription.setText(task.description());
         hereIsType.setText(capitalizeString(String.valueOf(task.type())));
@@ -57,6 +59,7 @@ public class ViewTaskDetailed extends AppCompatActivity {
         } else {
             hereIsSteps.setVisibility(View.GONE);
         }
+        (task.whichDaysOfWeek()).forEach(x -> hereIsDaysActive.append(capitalizeString(x) + " "));
         hereIsCreatedAt.setText(task.createdAt());
     }
 }

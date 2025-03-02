@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
         android:orientation="vertical"
+        android:paddingLeft="8dp"
         app:layout_constraintBottom_toTopOf="@+id/goBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,13 +34,14 @@
             <TextView
                 android:id="@+id/hereIsName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/Desctiption"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:orientation="vertical">
@@ -53,7 +55,8 @@
             <TextView
                 android:id="@+id/hereIsDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,11 +74,12 @@
             <TextView
                 android:id="@+id/hereIsType"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Steps"
+            android:id="@+id/StepsLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -91,8 +95,35 @@
                 android:id="@+id/hereIsSteps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:singleLine="false" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/WhichDaysLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/WhichDays" />
+
+            <TextView
+                android:id="@+id/hereIsDaysActive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:breakStrategy="balanced"
+                android:ems="10"
+                android:gravity="start|top"
+                android:linksClickable="false"
+                android:maxLines="7"
+                android:singleLine="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +141,8 @@
             <TextView
                 android:id="@+id/hereIsCreatedAt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp" />
         </LinearLayout>
 
     </LinearLayout>

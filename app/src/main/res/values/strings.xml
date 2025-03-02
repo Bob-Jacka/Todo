@@ -5,7 +5,7 @@
     <string name="Task_action">Task action</string>
     <string name="Delete_task">Delete task</string>
     <string name="Close">Close</string>
-    <string name="Task_type">Task type</string>
+    <string name="Task_type">Task type:</string>
     <string name="Change_Task">Please, change task</string>
     <string name="HoldToChangeType">Hold, to change task type</string>
     <string name="Accept">Accept</string>
@@ -13,9 +13,9 @@
     <string name="SaveError">Error in save tasks</string>
     <string name="LoadError">Error in load tasks</string>
     <string name="SelectType">Select task type</string>
-    <string name="Task_description">Task description</string>
-    <string name="Task_name">Task name</string>
-    <string name="Task_steps">Task steps</string>
+    <string name="Task_description">Task description:</string>
+    <string name="Task_name">Task name:</string>
+    <string name="Task_steps">Task steps:</string>
     <string name="TapToAddStep">Tap to add step</string>
     <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="title_activity_view_task" translatable="false">view_task</string>
@@ -27,6 +27,10 @@
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
     <string name="ChooseDayOn">Choose day on</string>
-    <string name="Task_WhenCreated">Task created at</string>
+    <string name="Task_WhenCreated">Task created at:</string>
     <string name="GoBackBtn">Go back</string>
+    <string name="StepName">Step name</string>
+    <string name="EnterStepDefinition">Enter step definition</string>
+    <string name="WhichDays">Which days active:</string>
+    <string name="NameOfList">Name of the list:</string>
 </resources>

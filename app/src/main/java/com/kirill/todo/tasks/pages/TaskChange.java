@@ -4,7 +4,7 @@ import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskActionController.capitalizeString;
 import static com.kirill.todo.tasks.core.TaskActionController.deleteTask;
 import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
-import static com.kirill.todo.tasks.data.GlobalSettings.serializeKey;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKeyTask;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,7 +50,7 @@ public class TaskChange extends AppCompatActivity {
         taskDescription = findViewById(R.id.TaskDescription);
         acceptBtn = findViewById(R.id.AcceptChange);
         buttonGroup = findViewById(R.id.ButtonGroup);
-        taskToChange = (AbstractTask) getIntent().getExtras().getSerializable(serializeKey);
+        taskToChange = (AbstractTask) getIntent().getExtras().getSerializable(serializeKeyTask);
     }
 
     private void initFields() {
@@ -106,7 +106,7 @@ public class TaskChange extends AppCompatActivity {
         int daysCounter = 0;
         while (daysCounter < taskToChange.whichDaysOfWeek().size()) {
             String day = capitalizeString(taskToChange.whichDaysOfWeek().get(daysCounter));
-            for (int i = 1; i < 7; i++) {
+            for (int i = 1; i <= 7; i++) {
                 RadioButton button = (RadioButton) buttonGroup.getChildAt(i);
                 if (button.getText().equals(day)) {
                     button.toggle();

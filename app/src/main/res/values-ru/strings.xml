@@ -5,7 +5,7 @@
     <string name="Task_action">Действия с задачей</string>
     <string name="Delete_task">Удалить задачу</string>
     <string name="Close">Закрыть</string>
-    <string name="Task_type">Тип задач</string>
+    <string name="Task_type">Тип задачи:</string>
     <string name="Change_Task">Пожалуйста, поменяйте задачу</string>
     <string name="HoldToChangeType">Удерживайте, чтобы поменять тип задачи</string>
     <string name="Accept">Подтвердить</string>
@@ -13,9 +13,9 @@
     <string name="SaveError">Ошибка сохранения задач</string>
     <string name="LoadError">Ошибка загрузки задач</string>
     <string name="SelectType">Выберите тип задачи</string>
-    <string name="Task_description">Описание задачи</string>
-    <string name="Task_name">Имя задачи</string>
-    <string name="Task_steps">Шаги задачи</string>
+    <string name="Task_description">Описание задачи:</string>
+    <string name="Task_name">Имя задачи:</string>
+    <string name="Task_steps">Шаги задачи:</string>
     <string name="TapToAddStep">Нажмите, чтобы добавить шаг</string>
     <string name="Monday">Понедельник</string>
     <string name="Tuesday">Вторник</string>
@@ -25,6 +25,10 @@
     <string name="Saturday">Суббота</string>
     <string name="Sunday">Воскресенье</string>
     <string name="ChooseDayOn">Выберите день, когда задача активна</string>
-    <string name="Task_WhenCreated">Задача создана</string>
+    <string name="Task_WhenCreated">Задача создана:</string>
     <string name="GoBackBtn">Вернуться назад</string>
+    <string name="StepName">Название шага</string>
+    <string name="EnterStepDefinition">Введите определение шага</string>
+    <string name="WhichDays">Когда активна задача:</string>
+    <string name="NameOfList">Название списка:</string>
 </resources>

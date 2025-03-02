@@ -19,11 +19,11 @@ abstract class AbstractTask : Serializable {
         return taskName
     }
 
-    fun steps(): List<String>? {
-        return steps.takeIf { steps.isNotEmpty() }
+    fun steps(): List<String> {
+        return steps
     }
 
-    fun steps(steps: List<String>): Unit {
+    fun steps(steps: List<String>) {
         this.steps = steps
     }
 

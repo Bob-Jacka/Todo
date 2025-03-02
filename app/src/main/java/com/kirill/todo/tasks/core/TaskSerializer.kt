@@ -1,6 +1,7 @@
 package com.kirill.todo.tasks.core
 
 import com.kirill.todo.tasks.data.AbstractTask
+import com.kirill.todo.tasks.data.TaskList
 import com.kirill.todo.tasks.data.TasksEnum
 import com.kirill.todo.tasks.tasksByTypes.EducationTask
 import com.kirill.todo.tasks.tasksByTypes.MedicalTask
@@ -9,18 +10,20 @@ import com.kirill.todo.tasks.tasksByTypes.ReadTask
 import com.kirill.todo.tasks.tasksByTypes.SportTask
 import com.kirill.todo.tasks.tasksByTypes.WorkTask
 
+private typealias str = String
+
 object TaskSerializer {
 
-    private const val DELIMITER: String = "|"
+    private const val DELIMITER: str = "|"
     private val FILTER_FUNCTION = { x: Char -> (x != '[' && x != ']') }
 
-    fun serialize(task: AbstractTask): String {
+    fun task_serialize(task: AbstractTask): str {
         return "${task.taskName()}$DELIMITER${task.description()}$DELIMITER${task.type()}$DELIMITER${
             task.whichDaysOfWeek().toString().replace(" ", "")
         }$DELIMITER${task.steps()}$DELIMITER${task.createdAt()}$DELIMITER${task.checked()}$DELIMITER${task.whenActivated()}"
     }
 
-    fun deserialize(string: String): AbstractTask? {
+    fun task_deserialize(string: str): AbstractTask? {
         val maybeStr = string.takeIf { string.length > 2 }
         if (maybeStr != null) {
             val str = maybeStr.split(DELIMITER)
@@ -44,8 +47,16 @@ object TaskSerializer {
         }
     }
 
-    private fun getWhichDays(str: String): List<String> {
-        val listToReturn = ArrayList<String>()
+    fun list_serialize(): str {
+        return ""
+    }
+
+    fun list_deserialize(): TaskList? {
+        return null
+    }
+
+    private fun getWhichDays(str: str): List<str> {
+        val listToReturn = ArrayList<str>()
         val values = str.filter { FILTER_FUNCTION(it) }.split(",")
         for (innerString in values) {
             listToReturn.add(innerString)
@@ -53,8 +64,8 @@ object TaskSerializer {
         return listToReturn
     }
 
-    private fun getSteps(stepsString: String): List<String> {
-        val listToReturn = mutableListOf<String>()
+    private fun getSteps(stepsString: str): List<str> {
+        val listToReturn = mutableListOf<str>()
         val splittedString = stepsString.filter { FILTER_FUNCTION(it) }.split(",")
         splittedString.map { x -> listToReturn.add(x) }
         return listToReturn

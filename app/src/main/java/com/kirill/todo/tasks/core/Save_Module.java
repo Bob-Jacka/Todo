@@ -2,7 +2,7 @@ package com.kirill.todo.tasks.core;
 
 import static com.kirill.todo.tasks.core.TaskActionController.addTask;
 import static com.kirill.todo.tasks.core.TaskSerializer.INSTANCE;
-import static com.kirill.todo.tasks.data.GlobalSettings.maxTasks;
+import static com.kirill.todo.tasks.data.GlobalSettings.empty_line;
 import static com.kirill.todo.tasks.data.GlobalSettings.tasks;
 
 import android.widget.Toast;
@@ -21,6 +21,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Save_Module extends AppCompatActivity {
 
@@ -37,10 +39,10 @@ public class Save_Module extends AppCompatActivity {
             final BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
             for (AbstractTask at : tasks) {
                 if (at == null) {
-                    writer.write("0");
+                    writer.write(empty_line);
                     writer.newLine();
                 } else {
-                    writer.write(serializer.serialize(at));
+                    writer.write(serializer.task_serialize(at));
                     writer.newLine();
                 }
             }
@@ -68,18 +70,29 @@ public class Save_Module extends AppCompatActivity {
         int increment = 0;
         String saveLine;
         try {
+            final List<Object> file_list = Arrays.asList(reader.lines().toArray());
             do {
-                saveLine = reader.readLine();
-                if (saveLine != null && !saveLine.equals("0")) {
-                    AbstractTask task = serializer.deserialize(saveLine);
+                saveLine = (String) file_list.get(increment);
+                if (saveLine != null && !saveLine.equals(empty_line)) {
+                    AbstractTask task = serializer.task_deserialize(saveLine);
                     addTask(task);
                 }
                 increment++;
-            } while (increment < maxTasks);
+            } while (increment < file_list.size());
             reader.close();
         } catch (IOException e) {
-            e.getStackTrace();
+            System.out.println(e.getStackTrace());
             Toast.makeText(MainActivity.taskList.getContext(), R.string.LoadError, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    private void load_task_list() {
+        //
+    }
+
+    private void save_task_list() {
+        //
     }
 }

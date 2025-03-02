@@ -5,7 +5,7 @@ import static com.kirill.todo.tasks.core.TaskActionController.loadTasks;
 import static com.kirill.todo.tasks.core.TaskActionController.saveTasks;
 import static com.kirill.todo.tasks.core.TaskActionController.taskViewPointer;
 import static com.kirill.todo.tasks.data.GlobalSettings.SAVE_FILE_NAME;
-import static com.kirill.todo.tasks.data.GlobalSettings.serializeKey;
+import static com.kirill.todo.tasks.data.GlobalSettings.serializeKeyTask;
 import static com.kirill.todo.tasks.data.GlobalSettings.tasks;
 import static com.kirill.todo.tasks.data.GlobalSettings.today;
 
@@ -34,7 +34,8 @@ import java.util.Iterator;
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity {
 
-    private FloatingActionButton addButton;
+    private FloatingActionButton addTaskButton;
+    private FloatingActionButton addListButton;
     private SwipeRefreshLayout srl;
 
     @SuppressLint("StaticFieldLeak")
@@ -46,11 +47,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         saveFileName = getApplicationContext().getFilesDir().getAbsolutePath() + SAVE_FILE_NAME;
         taskList = findViewById(R.id.TasksList);
-        addButton = findViewById(R.id.addButton);
+        addListButton = findViewById(R.id.addList);
+        addTaskButton = findViewById(R.id.addButton);
         srl = findViewById(R.id.swiperefresh);
         loadTasks();
         initTasks();
         srl.setOnRefreshListener(() -> taskList.refreshDrawableState());
+
+        addTaskButton.setOnClickListener(this::goAddTask);
+        addListButton.setOnClickListener(this::goAddList);
     }
 
     @Override
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         checkBox.setOnClickListener((this::taskComplete));
                         taskBlock.setOnClickListener(view -> {
                             Intent intent = new Intent(this, ViewTaskDetailed.class);
-                            intent.putExtra(serializeKey, tasks.get(taskList.indexOfChild(view)));
+                            intent.putExtra(serializeKeyTask, tasks.get(taskList.indexOfChild(view)));
                             startActivity(intent);
                         });
                     }
@@ -114,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             case "Change task":
             case "Изменить задачу":
                 Intent intent = new Intent(this, TaskChange.class);
-                intent.putExtra(serializeKey, tasks.get(taskViewPointer));
+                intent.putExtra(serializeKeyTask, tasks.get(taskViewPointer));
                 startActivity(intent);
                 break;
             case "Delete task":
@@ -129,9 +134,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AddTask.class));
     }
 
+    public void goAddList(View view) {
+        startActivity(new Intent(this, AddList.class));
+    }
+
     public void taskComplete(View view) {
-        LinearLayout block = (LinearLayout) view.getParent();
-        LinearLayout list = (LinearLayout) block.getParent();
+        final LinearLayout block = (LinearLayout) view.getParent();
+        final LinearLayout list = (LinearLayout) block.getParent();
         AbstractTask logicTask = tasks.get(list.indexOfChild(block));
         final CheckBox checkBox = (CheckBox) view;
         if (checkBox.isChecked() && logicTask.whenActivated() != today) {
