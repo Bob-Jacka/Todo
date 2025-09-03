@@ -44,9 +44,16 @@ public final class TaskActionController {
         }
     }
 
+    /**
+     * Method for adding task to list
+     *
+     * @param task task object of allowed type
+     */
     public static void addTask(AbstractTask task) {
         if (task != null) {
             tasks.add(task);
+        } else {
+            System.out.println("Cannot add task, because task is null");
         }
     }
 

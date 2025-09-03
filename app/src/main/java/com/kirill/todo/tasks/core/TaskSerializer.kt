@@ -12,6 +12,9 @@ import com.kirill.todo.tasks.tasksByTypes.WorkTask
 
 private typealias str = String
 
+/**
+ * Object for serialize/deserialize actions
+ */
 object TaskSerializer {
 
     private const val DELIMITER: str = "|"
@@ -43,14 +46,23 @@ object TaskSerializer {
             task.whenActivated(str[7].toInt())
             return task
         } else {
+            println("Return null object, because error occurred")
             return null
         }
     }
 
+    /**
+     * Function for list serializing
+     * @return string list representation
+     */
     fun list_serialize(): str {
         return ""
     }
 
+    /**
+     * Function for list deserializing
+     * @return TaskList object from given string
+     */
     fun list_deserialize(): TaskList? {
         return null
     }

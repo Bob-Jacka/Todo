@@ -4,16 +4,17 @@ import java.io.Serializable
 
 abstract class AbstractTask : Serializable {
 
+    private lateinit var createdAt: String
+    private var whenActivated: Int = 0
+
+    private var checked: Boolean = false
+    private var whichDaysOfWeek: List<String> = mutableListOf()
+
+    private var steps: List<String> = mutableListOf()
+
     protected lateinit var taskName: String
     protected lateinit var description: String
-    protected lateinit var createdAt: String
-
     protected lateinit var type: TasksEnum
-    protected var whenActivated: Int = 0
-    protected var checked: Boolean = false
-
-    protected var whichDaysOfWeek: List<String> = mutableListOf()
-    protected var steps: List<String> = mutableListOf()
 
     fun taskName(): String {
         return taskName
@@ -31,7 +32,7 @@ abstract class AbstractTask : Serializable {
         this.taskName = taskName
     }
 
-    fun description(): String? {
+    fun description(): String {
         return description
     }
 

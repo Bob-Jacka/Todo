@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kirill.todo.R;
 import com.kirill.todo.tasks.data.AbstractTask;
 
-public class ViewTaskDetailed extends AppCompatActivity {
+public final class ViewTaskDetailed extends AppCompatActivity {
 
     private TextView hereIsName;
     private TextView hereIsDescription;
@@ -43,6 +43,9 @@ public class ViewTaskDetailed extends AppCompatActivity {
         goBack.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
+    /**
+     * Write information to field
+     */
     private void writeValues() {
         final AbstractTask task = (AbstractTask) getIntent().getExtras().getSerializable(serializeKeyTask);
         hereIsName.setText(task.taskName());

@@ -11,6 +11,7 @@ import static com.kirill.todo.tasks.data.GlobalSettings.today;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -64,27 +65,32 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Initialize tasks in view by reading tasks array
+     */
     private void initTasks() {
         if (tasks.size() != 0) {
             final String dayOfWeek = LocalDateTime.now().getDayOfWeek().toString();
             final Iterator<AbstractTask> taskIterator = tasks.iterator();
-            for (int i = 0; i < tasks.size(); i++) {
+            for (int i = 0; i < tasks.size(); ++i) {
                 if (taskIterator.hasNext()) {
                     AbstractTask taskToLoad = taskIterator.next();
                     if (taskToLoad.whichDaysOfWeek().contains(dayOfWeek)) {
                         LinearLayout taskBlock = (LinearLayout) taskList.getChildAt(i);
                         taskBlock.setVisibility(View.VISIBLE);
 
-                        CheckBox checkBox = (CheckBox) taskBlock.getChildAt(0);
+                        final CheckBox checkBox = (CheckBox) taskBlock.getChildAt(0);
                         if (taskToLoad.whenActivated() == today && taskToLoad.checked()) {
                             checkBox.toggle();
                         }
 
-                        TextView txtv1 = (TextView) taskBlock.getChildAt(1);
+                        final TextView txtv1 = (TextView) taskBlock.getChildAt(1);
                         txtv1.setText(taskToLoad.taskName());
+                        txtv1.setTextColor(Color.BLACK); //because cmf Phone 1 strict to white
 
-                        TextView txtv2 = (TextView) taskBlock.getChildAt(2);
+                        final TextView txtv2 = (TextView) taskBlock.getChildAt(2);
                         txtv2.setText(String.valueOf(taskToLoad.type()));
+                        txtv2.setTextColor(Color.BLACK); //because cmf Phone 1 strict to white
 
                         registerForContextMenu(taskBlock);
                         checkBox.setOnClickListener((this::taskComplete));
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(serializeKeyTask, tasks.get(taskViewPointer));
                 startActivity(intent);
                 break;
+
             case "Delete task":
             case "Удалить задачу":
                 TaskActionController.deleteTask();
@@ -138,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AddList.class));
     }
 
+    /**
+     * Check that task is complete
+     *
+     * @param view
+     */
     public void taskComplete(View view) {
         final LinearLayout block = (LinearLayout) view.getParent();
         final LinearLayout list = (LinearLayout) block.getParent();
@@ -155,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         try {
+            System.out.println("Exit");
             finalize();
         } catch (Throwable e) {
             throw new RuntimeException(e);

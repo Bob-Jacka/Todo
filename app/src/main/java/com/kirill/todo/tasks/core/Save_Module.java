@@ -24,17 +24,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Entity that responsible for saving and loading objects from memory
+ */
 public class Save_Module extends AppCompatActivity {
 
     public static String saveFileName;
     private final File saveFile = new File(saveFileName);
     private final TaskSerializer serializer = INSTANCE;
 
+    /**
+     * Save tasks in file by writing to memory
+     */
     void save_TaskBlocks() {
         try {
             if (saveFile.length() != 0) {
-                saveFile.delete();
-                save_TaskBlocks();
+                if (saveFile.delete()) {
+                    save_TaskBlocks();
+                } else {
+                    Toast.makeText(this, "Error in delete save file", Toast.LENGTH_SHORT).show();
+                }
             }
             final BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
             for (AbstractTask at : tasks) {
@@ -49,9 +58,14 @@ public class Save_Module extends AppCompatActivity {
             writer.close();
         } catch (IOException e) {
             Toast.makeText(MainActivity.taskList.getContext(), R.string.SaveError, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.taskList.getContext(), "Error in save module", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Load tasks directly from memory
+     */
     void load_TasksArray() {
         try {
             if (saveFile.length() != 0L && saveFile.exists()) {
@@ -81,7 +95,7 @@ public class Save_Module extends AppCompatActivity {
             } while (increment < file_list.size());
             reader.close();
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+            System.out.println(Arrays.toString(e.getStackTrace()));
             Toast.makeText(MainActivity.taskList.getContext(), R.string.LoadError, Toast.LENGTH_SHORT).show();
         }
     }

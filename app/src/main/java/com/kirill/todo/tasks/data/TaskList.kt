@@ -8,7 +8,7 @@ private typealias str = String
 class TaskList {
 
     private var tasks_list: MutableList<AbstractTask> = mutableListOf()
-    val list_name: str
+    private val list_name: str
     val description: str
 
     constructor(tasks: List<AbstractTask>, name: str = "", list_description: str = "") {
@@ -19,7 +19,7 @@ class TaskList {
 
     fun sort_list() {
         tasks_list.sortBy { tasks_list.elementAt(0).taskName() }
-    } //TODO доделать метод
+    }
 
     fun delete_task(task: AbstractTask?) {
         if (task != null) {
@@ -33,7 +33,7 @@ class TaskList {
         if (task != null) {
             tasks_list.add(task)
         } else {
-            //
+            println("Error occurred in add task algorithm")
         }
     }
 }

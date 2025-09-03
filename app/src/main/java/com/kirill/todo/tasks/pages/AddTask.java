@@ -31,6 +31,9 @@ import com.kirill.todo.tasks.data.TasksEnum;
 
 import java.util.List;
 
+/**
+ * Page for add task to list
+ */
 public class AddTask extends AppCompatActivity {
 
     private AbstractTask current_task;

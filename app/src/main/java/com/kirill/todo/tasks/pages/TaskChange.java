@@ -26,7 +26,7 @@ import com.kirill.todo.R;
 import com.kirill.todo.tasks.data.AbstractTask;
 import com.kirill.todo.tasks.data.TasksEnum;
 
-public class TaskChange extends AppCompatActivity {
+public final class TaskChange extends AppCompatActivity {
 
     private EditText taskName, taskDescription;
     private Button acceptBtn, newTaskTypeBtn;

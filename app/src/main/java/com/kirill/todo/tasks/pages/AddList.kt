@@ -12,6 +12,9 @@ import androidx.core.widget.addTextChangedListener
 import com.kirill.todo.R
 import com.kirill.todo.tasks.data.TaskList
 
+/**
+ * Page for adding list of task
+ */
 class AddList : AppCompatActivity() {
 
     private lateinit var nameOfList_widget: EditText
